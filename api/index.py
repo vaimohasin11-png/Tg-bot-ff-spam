@@ -35,7 +35,7 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     # এখানে আপনার ভারসেল থেকে পাওয়া ইউআরএল পরে বসাতে হবে
-    # উদাহরণ: bot.set_webhook(url="https://your-app.vercel.app/" + API_TOKEN)
+    bot.set_webhook(url="https://tg-bot-ff-spam.vercel.app/" + API_TOKEN)
     return "MOHASIN BOT IS ALIVE!", 200
 
 # --- বটের কমান্ড ও মেসেজ হ্যান্ডলার ---
