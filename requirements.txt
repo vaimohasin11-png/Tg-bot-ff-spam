@@ -4,5 +4,5 @@ pycryptodome
 cryptography
 flask
 protobuf
-urllib3
 colorama
+protobuf-decoder
