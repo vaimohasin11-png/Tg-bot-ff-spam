@@ -4,8 +4,10 @@ from telebot import types
 from flask import Flask, request
 import threading
 import time
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# আপনার আপলোড করা মডিউলগুলো ইমপোর্ট
 import xH
 import byte
 
