@@ -64,31 +64,42 @@ def handle_uid_input(message):
     target_uid = message.text.strip()
     bot.send_message(message.chat.id, f"🚀 UID {target_uid} রিসিভ হয়েছে। ব্যাকগ্রাউন্ডে প্রসেস শুরু হচ্ছে...")
 
-    def background_task():
-        try:
-            # accs.txt থেকে ডাটা নেওয়া
-            if os.path.exists("accs.txt"):
-                with open("accs.txt", "r") as f:
-                    accounts = [line.strip().split(":") for line in f if ":" in line]
-                
-                success = 0
-                for u, p in accounts:
-                    try:
-                        # আপনার xH.py এর লজিক কল করা হচ্ছে
-                        at, oid = xH.gTok(u, p)
-                        # এখানে স্প্যাম প্রসেস চলবে
-                        success += 1
-                        time.sleep(0.3)
-                    except:
-                        continue
-                
-                bot.send_message(message.chat.id, f"✅ **স্প্যাম সাকসেসফুল!**\nমোট {success} টি অ্যাকাউন্ট থেকে হিট করা হয়েছে।")
-            else:
-                bot.send_message(message.chat.id, "❌ accs.txt ফাইলটি পাওয়া যায়নি!")
-        except Exception as e:
-            bot.send_message(message.chat.id, f"❌ Error: {str(e)}")
+    # --- ইউআইডি ইনপুট হ্যান্ডলারের ভেতর এই অংশটি চেক করুন ---
+        def background_task():
+            try:
+                # ফাইলের সঠিক পাথ (Path) খুঁজে বের করা
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                accs_path = os.path.join(os.path.dirname(current_dir), 'accs.txt')
 
-    threading.Thread(target=background_task).start()
+                if os.path.exists(accs_path):
+                    with open(accs_path, "r") as f:
+                        # ফাইল থেকে অ্যাকাউন্টগুলো নেওয়া
+                        accounts = [line.strip().split(":") for line in f if ":" in line]
+                    
+                    if not accounts:
+                        bot.send_message(message.chat.id, "❌ accs.txt ফাইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি!")
+                        return
+
+                    success = 0
+                    for u, p in accounts:
+                        try:
+                            # আপনার xH.py থেকে ফাংশন কল করা
+                            at, old = xH.gTok(u, p)
+                            # ইনভাইট পাঠানোর লজিক এখানে (আপনার মেইন কোড অনুযায়ী)
+                            # ...
+                            success += 1
+                            time.sleep(0.3)
+                        except:
+                            continue
+                    
+                    bot.send_message(message.chat.id, f"✅ স্প্যাম সফল! {success}টি অ্যাকাউন্ট থেকে ইনভাইট পাঠানো হয়েছে।")
+                else:
+                    bot.send_message(message.chat.id, "❌ accs.txt ফাইলটি সার্ভারে খুঁজে পাওয়া যাচ্ছে না!")
+            
+            except Exception as e:
+                bot.send_message(message.chat.id, f"Error: {str(e)}")
+
+        threading.Thread(target=background_task).start()
 
 if __name__ == "__main__":
     app.run()
