@@ -1,0 +1,8 @@
+pyTelegramBotAPI
+requests
+pycryptodome
+cryptography
+flask
+protobuf
+urllib3
+colorama

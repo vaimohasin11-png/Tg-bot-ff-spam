@@ -1,0 +1,2 @@
+# Bot Token এখানে সেট করুন
+BoT_ToKeN = "8697050799:AAGWRmWQCMMbk8Vk2z57Gci7SoTDQICU4H8"
