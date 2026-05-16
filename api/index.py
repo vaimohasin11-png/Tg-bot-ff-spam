@@ -26,10 +26,13 @@ def main_keyboard():
 # --- ভারসেল ওয়েবহুক হ্যান্ডলার ---
 @app.route('/' + API_TOKEN, methods=['POST'])
 def getMessage():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "!", 200
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return "!", 200
+    else:
+        return "Invalid Content-Type", 403
 
 @app.route("/")
 def webhook():
